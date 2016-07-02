@@ -7,7 +7,7 @@ class MainController < ApplicationController
     if(Share.where(ip: request.remote_ip, created_at: 1.days.ago..DateTime.now).all.count > 5)
       render json: {
         error: [
-          'Cant share more than 5 stats in a day!'
+          'Can\'t share more than 5 stats in a day!'
         ]
       }
     else
