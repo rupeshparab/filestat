@@ -39,69 +39,6 @@
 
     </div>
   </div>
-
-
-  <script type="text/javascript">
-  function readSingleFile(evt) {
-    //Retrieve the first (and only!) File from the FileList object
-    var f = evt.target.files[0];
-
-    if (f) {
-      var r = new FileReader();
-      r.onload = function(e) {
-	      var contents = e.target.result;
-        // document.getElementById("bytes").innerText = f.size;
-        // document.getElementById("lines").innerText = contents.split("\n").length
-
-        var words;
-
-        var split = contents.trim().split(/\s+/g);
-        if (split.length === 1) {
-            if (split[0].trim() === '') {
-                words = 0;
-            } else {
-                words = 1;
-            }
-        } else {
-            words = split.length;
-        }
-
-        var lines;
-        var matching = contents.match(/\n/g);
-        if (matching != null) {
-            lines = matching.length;
-        } else {
-                // File has content but no newlines. If file is empty
-    	    // return zero lines, otherwise there is only a single line
-    	    if (text.trim().length == 0) {
-    		      lines = 0;
-    	    } else {
-    		      lines = 1;
-    	    }
-        }
-
-        var size = f.size;
-        i = Math.floor(Math.log(size) / Math.log(1024));
-        sizes = ['', 'K', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y'];
-        size = (size / Math.pow(1024, i)).toFixed(2) * 1 + ' ' + sizes[i];
-
-        document.getElementById("lines").innerText = lines;
-        document.getElementById("bytes").innerText = size;
-        document.getElementById("words").innerText = words;
-        document.getElementById("chars").innerText = contents.length - lines;
-
-      }
-      r.readAsText(f);
-    }
-    else {
-      $("#info").show();
-      $("#table").hide();
-    }
-  }
-
-  document.getElementById('input').addEventListener('change', readSingleFile, false);
-
-</script>
 <script>
 $(document).on('ready turbolinks:load', function() {
     if($('.kv-upload-progress').length==0)
@@ -117,12 +54,55 @@ $(document).on('ready turbolinks:load', function() {
       });
     }
 });
-$('#input').on('fileloaded', function(event, file, previewId, index, reader) {
-  $("#prompt").hide();
-  $("#table").show();
-});
 $('#input').on('filecleared filereset', function(event, file, previewId, index, reader) {
   $("#table").hide();
   $("#prompt").show();
 });
+</script>
+<script type="text/javascript">
+$('#input').on('fileloaded', function(event, file, previewId, index, reader) {
+  console.log("hi");
+  $("#prompt").hide();
+  $("#table").show();
+  var contents = $('textarea').text();
+  // document.getElementById("bytes").innerText = f.size;
+  // document.getElementById("lines").innerText = contents.split("\n").length
+
+  var words;
+
+  var split = contents.trim().split(/\s+/g);
+  if (split.length === 1) {
+      if (split[0].trim() === '') {
+          words = 0;
+      } else {
+          words = 1;
+      }
+  } else {
+      words = split.length;
+  }
+
+  var lines;
+  var matching = contents.match(/\n/g);
+  if (matching != null) {
+      lines = matching.length;
+  } else {
+          // File has content but no newlines. If file is empty
+    // return zero lines, otherwise there is only a single line
+    if (contents.trim().length == 0) {
+        lines = 0;
+    } else {
+        lines = 1;
+    }
+  }
+  var sText = $('samp').text();
+  var size = sText.slice(1, sText.toString().length-2);
+
+  document.getElementById("lines").innerText = lines;
+  document.getElementById("bytes").innerText = size;
+  document.getElementById("words").innerText = words;
+  document.getElementById("chars").innerText = contents.length - lines;
+});
+
+//document.getElementById('input').addEventListener('change', readSingleFile, false);
+//document.getElementById('input').addEventListener('fileimageloaded', readSingleFile, false);
 </script>
