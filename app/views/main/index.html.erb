@@ -80,8 +80,13 @@
     	    }
         }
 
+        var size = f.size;
+        i = Math.floor(Math.log(size) / Math.log(1024));
+        sizes = ['', 'K', 'M', 'G', 'T', 'P', 'E', 'Z', 'Y'];
+        size = (size / Math.pow(1024, i)).toFixed(2) * 1 + ' ' + sizes[i];
+
         document.getElementById("lines").innerText = lines;
-        document.getElementById("bytes").innerText = f.size;
+        document.getElementById("bytes").innerText = size;
         document.getElementById("words").innerText = words;
         document.getElementById("chars").innerText = contents.length - lines;
 
@@ -104,6 +109,7 @@ $(document).on('ready turbolinks:load', function() {
       $("#input").fileinput({
           uploadUrl: "/upload", // server upload action
           uploadAsync: true,
+          autoReplace: true,
           maxFileCount: 1,
           previewFileType: "text",
           previewClass: "bg-warning",
