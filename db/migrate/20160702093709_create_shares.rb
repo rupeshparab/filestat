@@ -5,6 +5,7 @@ class CreateShares < ActiveRecord::Migration[5.0]
       t.string    :value
       t.string    :ip
       t.datetime  :created_at
+      t.binary    :file_contents
 
       t.timestamps
     end

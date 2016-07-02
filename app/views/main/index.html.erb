@@ -95,10 +95,10 @@
     	    }
         }
 
+        document.getElementById("lines").innerText = lines;
         document.getElementById("bytes").innerText = f.size;
         document.getElementById("words").innerText = words;
-        document.getElementById("lines").innerText = lines;
-        document.getElementById("chars").innerText = contents.length;
+        document.getElementById("chars").innerText = contents.length - lines;
 
       }
       r.readAsText(f);

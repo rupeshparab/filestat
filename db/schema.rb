@@ -16,8 +16,9 @@ ActiveRecord::Schema.define(version: 20160702093709) do
     t.string   "key"
     t.string   "value"
     t.string   "ip"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.datetime "created_at",    null: false
+    t.binary   "file_contents"
+    t.datetime "updated_at",    null: false
   end
 
 end
