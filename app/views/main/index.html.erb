@@ -104,6 +104,7 @@ $(document).on('ready turbolinks:load', function() {
       $("#input").fileinput({
           uploadUrl: "/upload", // server upload action
           uploadAsync: true,
+          maxFileCount: 1,
           previewFileType: "text",
           previewClass: "bg-warning",
           maxFileSize: 2000,
