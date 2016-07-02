@@ -17,37 +17,42 @@
   $(document).ready(function () {
     $("#table").show();
     var contents = $('#text').text();
-    // document.getElementById("bytes").innerText = f.size;
-    // document.getElementById("lines").innerText = contents.split("\n").length
 
     var words;
 
     var split = contents.trim().split(/\s+/g);
-    if (split.length === 1) {
-        if (split[0].trim() === '') {
+    if (split.length === 1)
+    {
+        if (split[0].trim() === '')
+        {
             words = 0;
-        } else {
+        } else
+        {
             words = 1;
         }
-    } else {
+    } else
+    {
         words = split.length;
     }
 
     var lines;
     var matching = contents.match(/\n/g);
-    if (matching != null) {
+    if (matching != null)
+    {
         lines = matching.length;
-    } else {
-            // File has content but no newlines. If file is empty
-      // return zero lines, otherwise there is only a single line
-      if (text.trim().length == 0) {
+    }
+    else
+    {
+      if (text.trim().length == 0)
+      {
           lines = 0;
-      } else {
+      } else
+      {
           lines = 1;
       }
     }
 
-    document.getElementById("bytes").innerText = contents.length + lines;
+    document.getElementById("bytes").innerText = '<%= @share.size %>';
     document.getElementById("words").innerText = words;
     document.getElementById("lines").innerText = lines;
     document.getElementById("chars").innerText = contents.length;

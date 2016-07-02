@@ -3,6 +3,7 @@ class CreateShares < ActiveRecord::Migration[5.0]
     create_table :shares do |t|
       t.string    :key
       t.string    :value
+      t.string    :size
       t.string    :ip
       t.datetime  :created_at
       t.binary    :file_contents

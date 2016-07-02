@@ -5,8 +5,9 @@ class MainController < ApplicationController
 
   def upload
     if(Share.where(ip: request.remote_ip, created_at: 1.days.ago..DateTime.now).all.count > 5)
-      render json: { error: [
-        'Cant share more than 5 stats in a day!'
+      render json: {
+        error: [
+          'Cant share more than 5 stats in a day!'
         ]
       }
     else
@@ -17,15 +18,17 @@ class MainController < ApplicationController
       end
       params[:input].rewind
       if (params[:input].read.size.to_f / 1048576) > 2
-        render json: { error: [
-          'File size can\'t be greater than 2MB!'
+        render json: {
+          error: [
+            'File size can\'t be greater than 2MB!'
           ]
         }
       else
         params[:input].rewind
-        Share.create(key: ran_str, value: name, ip: request.remote_ip, file_contents: params[:input].read)
-        render json: { message: [
-          'Check your share at <a href=/share/'+ ran_str +'>'+request.env["HTTP_HOST"]+'/share/'+ran_str+'</a>'
+        Share.create(key: ran_str, value: name, ip: request.remote_ip, size: params[:size], file_contents: params[:input].read)
+        render json: {
+          message: [
+            'Check your share at <a href=/share/'+ ran_str +'>'+request.env["HTTP_HOST"]+'/share/'+ran_str+'</a>'
           ]
         }
       end
