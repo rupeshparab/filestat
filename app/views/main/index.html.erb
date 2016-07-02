@@ -1,0 +1,114 @@
+<div class="row">
+
+    <div class="col-md-6">
+      <%= form_tag({action: :upload}, multipart: true, remote: true) do %>
+        <%= label_tag(:input, "Select File:", class: "control-label") %>
+        <%= file_field_tag(:input, id: "input", type: "file", accept: "text/plain", class: "file-loading") %>
+      <% end %>
+
+      <br/>
+    </div>
+    <div class="col-md-6">
+      <%= render 'table' %>
+      <div id="info" class="well">
+        <h4>
+          Select a file to get it's stats
+        </h4>
+      </div>
+      <% flash.each do |key, value| %>
+        <div id="alert_message" class="alert alert-<%= key %>" role="alert">
+          <span class="glyphicon glyphicon-exclamation-sign" aria-hidden="true"></span>
+          <span class="sr-only">Error:</span>
+          <%= value %>
+        </div>
+        <script>
+        window.setTimeout(function() {
+          $(".alert-<%= key %>").fadeTo(500, 0).slideUp(500, function(){
+            $(this).remove();
+          });
+        }, 3000);
+        </script>
+      <% end %>
+
+    </div>
+  </div>
+  <script>
+  $(document).on('ready', function() {
+      $("#input").fileinput({
+          uploadUrl: "/upload", // server upload action
+          uploadAsync: true,
+          previewFileType: "text",
+          previewClass: "bg-warning",
+          maxFileSize: 2000,
+      });
+  });
+  $('#input').on('fileloaded', function(event, file, previewId, index, reader) {
+
+    $("#info").hide();
+    $("#table").show();
+
+  });
+  $('#input').on('filecleared filereset', function(event, file, previewId, index, reader) {
+
+    $("#table").hide();
+    $("#info").show();
+
+  });
+  </script>
+
+  <script type="text/javascript">
+  function readSingleFile(evt) {
+    //Retrieve the first (and only!) File from the FileList object
+    var f = evt.target.files[0];
+
+    if (f) {
+      var r = new FileReader();
+      r.onload = function(e) {
+	      var contents = e.target.result;
+        // document.getElementById("bytes").innerText = f.size;
+        // document.getElementById("lines").innerText = contents.split("\n").length
+
+        var words;
+
+        var split = contents.trim().split(/\s+/g);
+        if (split.length === 1) {
+            if (split[0].trim() === '') {
+                words = 0;
+            } else {
+                words = 1;
+            }
+        } else {
+            words = split.length;
+        }
+
+        var lines;
+        var matching = contents.match(/\n/g);
+        if (matching != null) {
+            lines = matching.length;
+        } else {
+                // File has content but no newlines. If file is empty
+    	    // return zero lines, otherwise there is only a single line
+    	    if (text.trim().length == 0) {
+    		      lines = 0;
+    	    } else {
+    		      lines = 1;
+    	    }
+        }
+
+        document.getElementById("bytes").innerText = f.size;
+        document.getElementById("words").innerText = words;
+        document.getElementById("lines").innerText = lines;
+        document.getElementById("chars").innerText = contents.length;
+
+      }
+      r.readAsText(f);
+    }
+    else {
+      $("#info").show();
+      $("#table").hide();
+    }
+  }
+
+  document.getElementById('input').addEventListener('change', readSingleFile, false);
+
+</script>
