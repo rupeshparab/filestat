@@ -4,7 +4,7 @@ class MainController < ApplicationController
   end
 
   def upload
-    if(Share.where(ip: request.remote_ip, created_at: 1.days.ago..DateTime.now).all.count > 10000)
+    if(Share.where(ip: request.remote_ip, created_at: 1.days.ago..DateTime.now).all.count > 5)
       render json: { error: [
         'Cant share more than 5 stats in a day!'
         ]

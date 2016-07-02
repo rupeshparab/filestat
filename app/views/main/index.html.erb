@@ -10,10 +10,17 @@
     </div>
     <div class="col-md-6">
       <%= render 'table' %>
-      <div id="info" class="well">
+      <div id="prompt" class="well">
         <h4>
           Select a file to get it's stats
         </h4>
+      </div>
+      <div class="well">
+        <ul>
+          <li>File size should be less than 2 MB</li>
+          <li>Users can upload maximum 5 files in 24 hrs</li>
+          <li>Anyone with the shared link can access file</li>
+        </ul>
       </div>
       <% flash.each do |key, value| %>
         <div id="alert_message" class="alert alert-<%= key %>" role="alert">
@@ -104,11 +111,11 @@ $(document).on('ready turbolinks:load', function() {
     }
 });
 $('#input').on('fileloaded', function(event, file, previewId, index, reader) {
-  $("#info").hide();
+  $("#prompt").hide();
   $("#table").show();
 });
 $('#input').on('filecleared filereset', function(event, file, previewId, index, reader) {
   $("#table").hide();
-  $("#info").show();
+  $("#prompt").show();
 });
 </script>
