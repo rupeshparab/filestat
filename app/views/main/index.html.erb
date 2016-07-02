@@ -32,29 +32,7 @@
 
     </div>
   </div>
-  <script>
-  $(document).on('ready', function() {
-      $("#input").fileinput({
-          uploadUrl: "/upload", // server upload action
-          uploadAsync: true,
-          previewFileType: "text",
-          previewClass: "bg-warning",
-          maxFileSize: 2000,
-      });
-  });
-  $('#input').on('fileloaded', function(event, file, previewId, index, reader) {
 
-    $("#info").hide();
-    $("#table").show();
-
-  });
-  $('#input').on('filecleared filereset', function(event, file, previewId, index, reader) {
-
-    $("#table").hide();
-    $("#info").show();
-
-  });
-  </script>
 
   <script type="text/javascript">
   function readSingleFile(evt) {
@@ -111,4 +89,26 @@
 
   document.getElementById('input').addEventListener('change', readSingleFile, false);
 
+</script>
+<script>
+$(document).on('ready turbolinks:load', function() {
+    if($('.kv-upload-progress').length==0)
+    {
+      $("#input").fileinput({
+          uploadUrl: "/upload", // server upload action
+          uploadAsync: true,
+          previewFileType: "text",
+          previewClass: "bg-warning",
+          maxFileSize: 2000,
+      });
+    }
+});
+$('#input').on('fileloaded', function(event, file, previewId, index, reader) {
+  $("#info").hide();
+  $("#table").show();
+});
+$('#input').on('filecleared filereset', function(event, file, previewId, index, reader) {
+  $("#table").hide();
+  $("#info").show();
+});
 </script>
