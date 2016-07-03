@@ -15,4 +15,4 @@
 //= require bootstrap
 //= require turbolinks
 //= require_tree .
-//= require fileinput/fileinput.js
+//= require fileinput/fileinput.min

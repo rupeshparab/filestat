@@ -726,7 +726,6 @@
         },
         _errorsExist: function () {
             var self = this, $err;
-            $('a[href="'+self.uploadUrl+'"]').button('reset');
             if (self.$errorContainer.find('li').length) {
                 return true;
             }
@@ -796,6 +795,7 @@
         _showUploadError: function (msg, params, event) {
             var self = this, $error = self.$errorContainer, ev = event || 'fileuploaderror', e = params && params.id ?
             '<li data-file-id="' + params.id + '">' + msg + '</li>' : '<li>' + msg + '</li>';
+                $('a[href="'+self.uploadUrl+'"]').button('reset');
             if ($error.find('ul').length === 0) {
                 self._addError('<ul>' + e + '</ul>');
             } else {
@@ -1742,7 +1742,7 @@
                 hasPostData = self.filestack.length > 0 || !$.isEmptyObject(self.uploadExtraData),
                 fnBefore, fnSuccess, fnComplete, fnError, updateUploadLog, params = {id: previewId, index: i};
             self.formdata = formdata;
-            $('a[href="'+self.uploadUrl+'"]').button('loading');
+            $('a[href="'+this.uploadUrl+'"]').button('loading');
             if (self.showPreview) {
                 $thumb = $('#' + previewId + ':not(.file-preview-initial)');
                 $btnUpload = $thumb.find('.kv-file-upload');
