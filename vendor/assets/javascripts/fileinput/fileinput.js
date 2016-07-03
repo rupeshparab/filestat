@@ -347,7 +347,7 @@
         '</div>\n';
     //noinspection HtmlUnknownAttribute
     tBtnDefault = '<button type="{type}" tabindex="500" title="{title}" class="{css}" {status}>{icon} {label}</button>';
-    tBtnLink = '<a href="{href}" tabindex="500" title="{title}" class="{css}" {status}>{icon} {label}</a>';
+    tBtnLink = '<a href="{href}" tabindex="500" title="{title}" class="{css}" data-loading-text="<i class=\'glyphicon glyphicon-refresh glyphicon-spin\'></i> Sharing" {status}>{icon} {label}</a>';
     tBtnBrowse = '<div tabindex="500" class="{css}" {status}>{icon} {label}</div>';
     tModalMain = '<div id="' + MODAL_ID + '" class="file-zoom-dialog modal fade" tabindex="-1" aria-labelledby="' +
         MODAL_ID + 'Label"></div>';
@@ -720,13 +720,13 @@
             $share.addClass('alert alert-success');
             $share.append(e);
             $share.fadeIn(800);
-            self._raise(ev, [params, msg]);
-
             self.$container.removeClass('file-input-new');
+            $('a[href="'+self.uploadUrl+'"]').button('reset');
             return true;
         },
         _errorsExist: function () {
             var self = this, $err;
+            $('a[href="'+self.uploadUrl+'"]').button('reset');
             if (self.$errorContainer.find('li').length) {
                 return true;
             }
@@ -1742,6 +1742,7 @@
                 hasPostData = self.filestack.length > 0 || !$.isEmptyObject(self.uploadExtraData),
                 fnBefore, fnSuccess, fnComplete, fnError, updateUploadLog, params = {id: previewId, index: i};
             self.formdata = formdata;
+            $('a[href="'+self.uploadUrl+'"]').button('loading');
             if (self.showPreview) {
                 $thumb = $('#' + previewId + ':not(.file-preview-initial)');
                 $btnUpload = $thumb.find('.kv-file-upload');
@@ -3243,8 +3244,8 @@
         removeTitle: 'Clear selected files',
         cancelLabel: 'Cancel',
         cancelTitle: 'Abort ongoing upload',
-        uploadLabel: 'Upload',
-        uploadTitle: 'Upload selected files',
+        uploadLabel: 'Share',
+        uploadTitle: 'Share file stats',
         msgNo: 'No',
         msgCancelled: 'Cancelled',
         msgZoomModalHeading: 'Detailed Preview',

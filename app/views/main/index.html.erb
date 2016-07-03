@@ -17,7 +17,7 @@
       <ul>
         <li>File size should be less than 2 MB</li>
         <li>Users can upload maximum 5 files in 24 hrs</li>
-        <li>Anyone with the shared link can access file</li>
+        <li>Anyone with the shared link can access the file</li>
       </ul>
     </div>
     <% flash.each do |key, value| %>
@@ -37,6 +37,10 @@
   </div>
 </div>
 <script>
+function findSize(text)
+{
+  return text.slice(1, text.length-2);
+}
 $(document).on('ready turbolinks:load', function() {
     if($('.kv-upload-progress').length==0)
     {
@@ -51,8 +55,7 @@ $(document).on('ready turbolinks:load', function() {
           uploadExtraData: function() {  // callback example
             var out = {};
             $('samp').last().each(function() {
-              var sText = $(this).text();
-              out['size'] = sText.slice(1, sText.toString().length-2);
+              out['size'] = findSize($(this).text());//sText.slice(1, sText.toString().length-2);
             });
             return out;
           }
@@ -66,52 +69,14 @@ $('#input').on('filecleared filereset', function(event, file, previewId, index, 
   $("#size").remove();
 });
 </script>
+<%= render 'commonjs' %>
 <script type="text/javascript">
 $('#input').on('fileloaded', function(event, file, previewId, index, reader)
 {
   $("#prompt").hide();
-  $("#table").show();
-  var contents = $('textarea').last().text();
-  var words;
-  var split = contents.trim().split(/\s+/g);
-  if (split.length === 1)
-  {
-      if (split[0].trim() === '')
-      {
-          words = 0;
-      }
-      else
-      {
-          words = 1;
-      }
-  } else
-  {
-      words = split.length;
-  }
-
-  var lines;
-  var matching = contents.match(/\n/g);
-  if (matching != null)
-  {
-      lines = matching.length;
-  } else
-  {
-    if (contents.trim().length == 0)
-    {
-        lines = 0;
-    }
-    else
-    {
-        lines = 1;
-    }
-  }
-  var sText = $('samp').last().text();
-  var size = sText.slice(1, sText.toString().length-2);
-
-  document.getElementById("lines").innerText = lines;
+  findStat();
+  var size = findSize($('samp').last().text());
   document.getElementById("bytes").innerText = size;
-  document.getElementById("words").innerText = words;
-  document.getElementById("chars").innerText = contents.length - lines;
   $('#size').remove();
   $('<input>').attr({
       type: 'hidden',
@@ -120,5 +85,4 @@ $('#input').on('fileloaded', function(event, file, previewId, index, reader)
       value: size
   }).appendTo('form');
 });
-
 </script>

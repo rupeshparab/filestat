@@ -1,0 +1,43 @@
+<script>
+  function findStat()
+  {
+    $("#table").show();
+    var contents = $('textarea').last().text();
+    var words;
+    var split = contents.trim().split(/\s+/g);
+    if (split.length === 1)
+    {
+        if (split[0].trim() === '')
+        {
+            words = 0;
+        }
+        else
+        {
+            words = 1;
+        }
+    } else
+    {
+        words = split.length;
+    }
+    var lines;
+    var matching = contents.match(/\n/g);
+    if (matching != null)
+    {
+        lines = matching.length;
+    }
+    else
+    {
+      if (contents.trim().length == 0)
+      {
+          lines = 0;
+      }
+      else
+      {
+          lines = 1;
+      }
+    }
+    document.getElementById("lines").innerText = lines;
+    document.getElementById("words").innerText = words;
+    document.getElementById("chars").innerText = contents.length - lines;
+  }
+</script>
